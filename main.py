@@ -237,7 +237,11 @@ class AddItemScreen(BaseScreen):
         self.sku_input = TextInput(hint_text="SKU", multiline=False)
         self.price_input = TextInput(hint_text="Unit Price", multiline=False)
         self.qty_input = TextInput(hint_text="Starting Quantity", multiline=False)
-        self.threshold_input = TextInput(hint_text="Stock Threshold", multiline=False)
+        self.threshold_input = TextInput(
+            hint_text="Stock Threshold",
+            text="" if self.editing_item else str(default_threshold),
+            multiline=False
+        )
 
         layout.add_widget(self.name_input)
         layout.add_widget(self.sku_input)
@@ -436,11 +440,89 @@ class SettingsScreen(BaseScreen):
         self.clear_widgets()
         layout = self.build_layout("Settings")
 
-        layout.add_widget(Label(text="Dark Mode Toggle"))
-        layout.add_widget(Label(text="Default Stock Threshold"))
-        layout.add_widget(Button(text="Reset Settings"))
+        self.dark_mode_label = Label(
+            text=f"Dark Mode: {'On' if dark_mode else 'Off'}",
+            size_hint_y=None,
+            height=40
+        )
+        layout.add_widget(self.dark_mode_label)
+
+        toggle_btn = Button(
+            text="Toggle Dark Mode",
+            size_hint_y=None,
+            height=50
+        )
+        toggle_btn.bind(on_press=self.toggle_dark_mode)
+        layout.add_widget(toggle_btn)
+
+        self.threshold_input = TextInput(
+            text=str(default_threshold),
+            hint_text="Default Stock Threshold",
+            multiline=False,
+            size_hint_y=None,
+            height=40
+        )
+        layout.add_widget(self.threshold_input)
+
+        save_threshold_btn = Button(
+            text="Save Threshold",
+            size_hint_y=None,
+            height=50
+        )
+        save_threshold_btn.bind(on_press=self.save_threshold)
+        layout.add_widget(save_threshold_btn)
+
+        reset_btn = Button(
+            text="Reset Settings / Data",
+            size_hint_y=None,
+            height=50
+        )
+        reset_btn.bind(on_press=self.reset_data)
+        layout.add_widget(reset_btn)
+
+        self.message = Label(
+            text="",
+            size_hint_y=None,
+            height=40
+        )
+        layout.add_widget(self.message)
 
         self.add_widget(layout)
+
+    def toggle_dark_mode(self, instance):
+        global dark_mode
+        dark_mode = not dark_mode
+        self.dark_mode_label.text = f"Dark Mode: {'On' if dark_mode else 'Off'}"
+        self.message.text = "Dark mode setting updated."
+
+    def save_threshold(self, instance):
+        global default_threshold
+        value = self.threshold_input.text.strip()
+
+        try:
+            value = int(value)
+        except ValueError:
+            self.message.text = "Threshold must be an integer."
+            return
+
+        if value < 0:
+            self.message.text = "Threshold cannot be negative."
+            return
+
+        default_threshold = value
+        self.message.text = f"Default threshold set to {default_threshold}."
+
+    def reset_data(self, instance):
+        global default_threshold, dark_mode
+
+        items.clear()
+        recent_activity.clear()
+        default_threshold = 5
+        dark_mode = False
+
+        self.threshold_input.text = str(default_threshold)
+        self.dark_mode_label.text = f"Dark Mode: {'On' if dark_mode else 'Off'}"
+        self.message.text = "All inventory data and settings have been reset."
 
 
 class InventoryApp(App):
