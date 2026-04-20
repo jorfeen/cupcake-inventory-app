@@ -46,7 +46,6 @@ class DashboardScreen(BaseScreen):
         low_stock_count = len(low_stock_items)
         inventory_value = sum(item["quantity"] * item["price"] for item in items)
 
-        # Summary section
         layout.add_widget(Label(
             text=f"Total Items: {total_items}",
             size_hint_y=None,
@@ -63,7 +62,6 @@ class DashboardScreen(BaseScreen):
             height=40
         ))
 
-        # Low stock section
         layout.add_widget(Label(
             text="Low Stock Alerts",
             size_hint_y=None,
@@ -84,7 +82,6 @@ class DashboardScreen(BaseScreen):
                     height=30
                 ))
 
-        # Recent activity section
         layout.add_widget(Label(
             text="Recent Activity",
             size_hint_y=None,
@@ -352,9 +349,84 @@ class ReportsScreen(BaseScreen):
         self.clear_widgets()
         layout = self.build_layout("Reports")
 
-        layout.add_widget(Label(text="Select Report Type"))
-        layout.add_widget(Button(text="Generate Report"))
-        layout.add_widget(Label(text="Summary"))
+        layout.add_widget(Label(
+            text="Report Type",
+            size_hint_y=None,
+            height=40
+        ))
+
+        total_items = len(items)
+        total_value = sum(item["quantity"] * item["price"] for item in items)
+        low_stock_items = [item for item in items if item["quantity"] <= item["threshold"]]
+
+        if items:
+            highest_item = max(items, key=lambda item: item["quantity"])
+            lowest_item = min(items, key=lambda item: item["quantity"])
+        else:
+            highest_item = None
+            lowest_item = None
+
+        layout.add_widget(Button(
+            text="Generate Report",
+            size_hint_y=None,
+            height=50
+        ))
+
+        layout.add_widget(Label(
+            text="Summary",
+            size_hint_y=None,
+            height=40
+        ))
+
+        layout.add_widget(Label(
+            text=f"Total Inventory Value: ${total_value:.2f}",
+            size_hint_y=None,
+            height=30
+        ))
+        layout.add_widget(Label(
+            text=f"Low Stock Items: {len(low_stock_items)}",
+            size_hint_y=None,
+            height=30
+        ))
+        layout.add_widget(Label(
+            text=f"Total Items: {total_items}",
+            size_hint_y=None,
+            height=30
+        ))
+
+        if highest_item:
+            layout.add_widget(Label(
+                text=f"Top Quantity: {highest_item['name']} - {highest_item['quantity']} units",
+                size_hint_y=None,
+                height=30
+            ))
+
+        if lowest_item:
+            layout.add_widget(Label(
+                text=f"Lowest Quantity: {lowest_item['name']} - {lowest_item['quantity']} units",
+                size_hint_y=None,
+                height=30
+            ))
+
+        layout.add_widget(Label(
+            text="Low Stock Item Details",
+            size_hint_y=None,
+            height=40
+        ))
+
+        if not low_stock_items:
+            layout.add_widget(Label(
+                text="No low stock items.",
+                size_hint_y=None,
+                height=30
+            ))
+        else:
+            for item in low_stock_items:
+                layout.add_widget(Label(
+                    text=f"{item['name']} (SKU {item['sku']}) - Qty: {item['quantity']} / Threshold: {item['threshold']}",
+                    size_hint_y=None,
+                    height=30
+                ))
 
         self.add_widget(layout)
 
