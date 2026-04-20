@@ -2,7 +2,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.scrollview import ScrollView
-from database.db import items
+from database.db import items, recent_activity, default_threshold, dark_mode
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
@@ -31,6 +31,8 @@ class BaseScreen(Screen):
         return root
 
     def switch_screen(self, screen_name):
+        if screen_name == "add_item":
+            self.manager.get_screen("add_item").set_edit_item(None)
         self.manager.current = screen_name
 
 
@@ -144,19 +146,32 @@ class ItemDetailsScreen(BaseScreen):
         self.add_widget(layout)
 
     def edit_item(self, instance):
-        print("Edit functionality coming next.")
+        add_item_screen = self.manager.get_screen("add_item")
+        add_item_screen.set_edit_item(self.selected_item)
+        self.manager.current = "add_item"
 
     def delete_item(self, instance):
         if self.selected_item in items:
+            recent_activity.insert(0, f"Deleted {self.selected_item['name']} (SKU {self.selected_item['sku']})")
+            if len(recent_activity) > 5:
+                recent_activity.pop()
+
             items.remove(self.selected_item)
+
         self.selected_item = None
         self.manager.current = "inventory"
 
 
 class AddItemScreen(BaseScreen):
+    editing_item = None
+
+    def set_edit_item(self, item):
+        self.editing_item = item
+
     def on_enter(self):
         self.clear_widgets()
-        layout = self.build_layout("Add Item")
+        title = "Edit Item" if self.editing_item else "Add Item"
+        layout = self.build_layout(title)
 
         self.name_input = TextInput(hint_text="Item Name", multiline=False)
         self.sku_input = TextInput(hint_text="SKU", multiline=False)
@@ -170,7 +185,8 @@ class AddItemScreen(BaseScreen):
         layout.add_widget(self.qty_input)
         layout.add_widget(self.threshold_input)
 
-        save_btn = Button(text="Save Item", size_hint_y=None, height=50)
+        button_text = "Save Changes" if self.editing_item else "Save Item"
+        save_btn = Button(text=button_text, size_hint_y=None, height=50)
         save_btn.bind(on_press=self.save_item)
         layout.add_widget(save_btn)
 
@@ -178,6 +194,17 @@ class AddItemScreen(BaseScreen):
         layout.add_widget(self.message)
 
         self.add_widget(layout)
+        self.populate_fields()
+
+    def populate_fields(self):
+        if not self.editing_item:
+            return
+
+        self.name_input.text = self.editing_item["name"]
+        self.sku_input.text = self.editing_item["sku"]
+        self.price_input.text = str(self.editing_item["price"])
+        self.qty_input.text = str(self.editing_item["quantity"])
+        self.threshold_input.text = str(self.editing_item["threshold"])
 
     def save_item(self, instance):
         name = self.name_input.text.strip()
@@ -190,7 +217,7 @@ class AddItemScreen(BaseScreen):
             self.message.text = "Error: Fill all fields"
             return
 
-        if any(item["sku"] == sku for item in items):
+        if any(item["sku"] == sku and item is not self.editing_item for item in items):
             self.message.text = "Error: SKU already exists"
             return
 
@@ -204,6 +231,23 @@ class AddItemScreen(BaseScreen):
 
         if price < 0 or qty < 0 or threshold < 0:
             self.message.text = "Error: Values cannot be negative"
+            return
+
+        if self.editing_item:
+            self.editing_item["name"] = name
+            self.editing_item["sku"] = sku
+            self.editing_item["price"] = price
+            self.editing_item["quantity"] = qty
+            self.editing_item["threshold"] = threshold
+
+            recent_activity.insert(0, f"Updated {name} (SKU {sku})")
+            if len(recent_activity) > 5:
+                recent_activity.pop()
+
+            self.manager.get_screen("item_details").selected_item = self.editing_item
+            self.message.text = "Item updated!"
+            self.editing_item = None
+            self.manager.current = "item_details"
             return
 
         item = {
@@ -224,6 +268,10 @@ class AddItemScreen(BaseScreen):
 
         items.append(item)
 
+        recent_activity.insert(0, f"Added {name} (SKU {sku})")
+        if len(recent_activity) > 5:
+            recent_activity.pop()
+
         self.message.text = "Item saved!"
 
         self.name_input.text = ""
@@ -231,6 +279,7 @@ class AddItemScreen(BaseScreen):
         self.price_input.text = ""
         self.qty_input.text = ""
         self.threshold_input.text = ""
+        self.editing_item = None
 
         self.manager.current = "inventory"
 
