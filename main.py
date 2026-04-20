@@ -41,12 +41,75 @@ class DashboardScreen(BaseScreen):
         self.clear_widgets()
         layout = self.build_layout("Dashboard")
 
-        layout.add_widget(Label(text="Total / Low Stock / Inventory Value"))
-        layout.add_widget(Label(text="Low Stock Alerts"))
-        layout.add_widget(Label(text="Recent Activity"))
+        total_items = len(items)
+        low_stock_items = [item for item in items if item["quantity"] <= item["threshold"]]
+        low_stock_count = len(low_stock_items)
+        inventory_value = sum(item["quantity"] * item["price"] for item in items)
 
-        add_btn = Button(text="+", size_hint=(None, None), size=(60, 60),
-                         pos_hint={"right": 1, "y": 0})
+        # Summary section
+        layout.add_widget(Label(
+            text=f"Total Items: {total_items}",
+            size_hint_y=None,
+            height=40
+        ))
+        layout.add_widget(Label(
+            text=f"Low Stock Alerts: {low_stock_count}",
+            size_hint_y=None,
+            height=40
+        ))
+        layout.add_widget(Label(
+            text=f"Inventory Value: ${inventory_value:.2f}",
+            size_hint_y=None,
+            height=40
+        ))
+
+        # Low stock section
+        layout.add_widget(Label(
+            text="Low Stock Alerts",
+            size_hint_y=None,
+            height=40
+        ))
+
+        if not low_stock_items:
+            layout.add_widget(Label(
+                text="No low stock items.",
+                size_hint_y=None,
+                height=30
+            ))
+        else:
+            for item in low_stock_items[:5]:
+                layout.add_widget(Label(
+                    text=f"{item['name']} (SKU {item['sku']}) - Qty: {item['quantity']} / Threshold: {item['threshold']}",
+                    size_hint_y=None,
+                    height=30
+                ))
+
+        # Recent activity section
+        layout.add_widget(Label(
+            text="Recent Activity",
+            size_hint_y=None,
+            height=40
+        ))
+
+        if not recent_activity:
+            layout.add_widget(Label(
+                text="No recent activity.",
+                size_hint_y=None,
+                height=30
+            ))
+        else:
+            for activity in recent_activity[:5]:
+                layout.add_widget(Label(
+                    text=activity,
+                    size_hint_y=None,
+                    height=30
+                ))
+
+        add_btn = Button(
+            text="+",
+            size_hint=(None, None),
+            size=(60, 60)
+        )
         add_btn.bind(on_press=lambda x: self.switch_screen("add_item"))
         layout.add_widget(add_btn)
 
