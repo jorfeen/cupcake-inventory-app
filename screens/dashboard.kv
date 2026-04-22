@@ -1,0 +1,322 @@
+#:kivy 2.0
+
+<DashboardScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.961, 0.965, 0.980, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+
+        # ── Blue header ───────────────────────────────────────────────────────
+        BoxLayout:
+            orientation: "vertical"
+            size_hint_y: None
+            height: self.minimum_height
+            canvas.before:
+                Color:
+                    rgba: 0.102, 0.435, 0.910, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            # Title row
+            BoxLayout:
+                size_hint_y: None
+                height: "52dp"
+                padding: "16dp", "8dp", "16dp", "4dp"
+
+                Label:
+                    text: "Dashboard"
+                    font_size: "20sp"
+                    bold: True
+                    color: 1, 1, 1, 1
+                    halign: "left"
+                    valign: "middle"
+                    text_size: self.size
+
+            # Tab bar
+            BoxLayout:
+                size_hint_y: None
+                height: "40dp"
+
+                Button:
+                    text: "Dashboard"
+                    font_size: "13sp"
+                    bold: True
+                    color: 1, 1, 1, 1
+                    background_normal: ""
+                    background_color: 0, 0, 0, 0
+                    on_press: root.go_to("dashboard")
+                    canvas.after:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        Line:
+                            points: self.x + 8, self.y + 2, self.right - 8, self.y + 2
+                            width: 2
+
+                Button:
+                    text: "Inventory"
+                    font_size: "13sp"
+                    color: 0.78, 0.88, 1, 1
+                    background_normal: ""
+                    background_color: 0, 0, 0, 0
+                    on_press: root.go_to("inventory")
+
+                Button:
+                    text: "Reports"
+                    font_size: "13sp"
+                    color: 0.78, 0.88, 1, 1
+                    background_normal: ""
+                    background_color: 0, 0, 0, 0
+                    on_press: root.go_to("reports")
+
+                Button:
+                    text: "Settings"
+                    font_size: "13sp"
+                    color: 0.78, 0.88, 1, 1
+                    background_normal: ""
+                    background_color: 0, 0, 0, 0
+                    on_press: root.go_to("settings")
+
+        # ── Scrollable body ───────────────────────────────────────────────────
+        FloatLayout:
+
+            ScrollView:
+                size_hint: 1, 1
+                do_scroll_x: False
+
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "16dp", "16dp", "16dp", "24dp"
+                    spacing: "14dp"
+
+                    # Stat cards row
+                    BoxLayout:
+                        orientation: "horizontal"
+                        size_hint_y: None
+                        height: "80dp"
+                        spacing: "10dp"
+
+                        # Total Items
+                        BoxLayout:
+                            orientation: "vertical"
+                            padding: "12dp", "10dp", "12dp", "10dp"
+                            spacing: "2dp"
+                            canvas.before:
+                                Color:
+                                    rgba: 1, 1, 1, 1
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [10]
+                                Color:
+                                    rgba: 0.878, 0.886, 0.910, 1
+                                Line:
+                                    rounded_rectangle: self.x, self.y, self.width, self.height, 10
+                                    width: 1
+
+                            Label:
+                                text: "Total"
+                                font_size: "11sp"
+                                color: 0.40, 0.42, 0.49, 1
+                                halign: "left"
+                                valign: "middle"
+                                size_hint_y: None
+                                height: "18dp"
+                                text_size: self.size
+
+                            Label:
+                                id: total_items
+                                text: "0"
+                                font_size: "22sp"
+                                bold: True
+                                color: 0.133, 0.153, 0.196, 1
+                                halign: "left"
+                                valign: "middle"
+                                size_hint_y: None
+                                height: "34dp"
+                                text_size: self.size
+
+                        # Low Stock
+                        BoxLayout:
+                            orientation: "vertical"
+                            padding: "12dp", "10dp", "12dp", "10dp"
+                            spacing: "2dp"
+                            canvas.before:
+                                Color:
+                                    rgba: 1, 1, 1, 1
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [10]
+                                Color:
+                                    rgba: 0.878, 0.886, 0.910, 1
+                                Line:
+                                    rounded_rectangle: self.x, self.y, self.width, self.height, 10
+                                    width: 1
+
+                            Label:
+                                text: "Low Stock"
+                                font_size: "11sp"
+                                color: 0.40, 0.42, 0.49, 1
+                                halign: "left"
+                                valign: "middle"
+                                size_hint_y: None
+                                height: "18dp"
+                                text_size: self.size
+
+                            Label:
+                                id: low_stock_count
+                                text: "0"
+                                font_size: "22sp"
+                                bold: True
+                                color: 0.102, 0.435, 0.910, 1
+                                halign: "left"
+                                valign: "middle"
+                                size_hint_y: None
+                                height: "34dp"
+                                text_size: self.size
+
+                        # Inventory Value
+                        BoxLayout:
+                            orientation: "vertical"
+                            padding: "12dp", "10dp", "12dp", "10dp"
+                            spacing: "2dp"
+                            canvas.before:
+                                Color:
+                                    rgba: 1, 1, 1, 1
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [10]
+                                Color:
+                                    rgba: 0.878, 0.886, 0.910, 1
+                                Line:
+                                    rounded_rectangle: self.x, self.y, self.width, self.height, 10
+                                    width: 1
+
+                            Label:
+                                text: "Inventory"
+                                font_size: "11sp"
+                                color: 0.40, 0.42, 0.49, 1
+                                halign: "left"
+                                valign: "middle"
+                                size_hint_y: None
+                                height: "18dp"
+                                text_size: self.size
+
+                            Label:
+                                id: inventory_value
+                                text: "$0.00"
+                                font_size: "17sp"
+                                bold: True
+                                color: 0.133, 0.153, 0.196, 1
+                                halign: "left"
+                                valign: "middle"
+                                size_hint_y: None
+                                height: "34dp"
+                                text_size: self.size
+
+                    # Low Stock Alerts card
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: "14dp", "12dp", "14dp", "8dp"
+                        spacing: 0
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [12]
+                            Color:
+                                rgba: 0.878, 0.886, 0.910, 1
+                            Line:
+                                rounded_rectangle: self.x, self.y, self.width, self.height, 12
+                                width: 1
+
+                        Label:
+                            text: "Low Stock Alerts"
+                            font_size: "14sp"
+                            bold: True
+                            color: 0.133, 0.153, 0.196, 1
+                            halign: "left"
+                            valign: "middle"
+                            size_hint_y: None
+                            height: "36dp"
+                            text_size: self.size
+
+                        BoxLayout:
+                            id: low_stock_list
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+
+                    # Recent Activity card
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: "14dp", "12dp", "14dp", "8dp"
+                        spacing: 0
+                        canvas.before:
+                            Color:
+                                rgba: 1, 1, 1, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [12]
+                            Color:
+                                rgba: 0.878, 0.886, 0.910, 1
+                            Line:
+                                rounded_rectangle: self.x, self.y, self.width, self.height, 12
+                                width: 1
+
+                        Label:
+                            text: "Recent Activity"
+                            font_size: "14sp"
+                            bold: True
+                            color: 0.133, 0.153, 0.196, 1
+                            halign: "left"
+                            valign: "middle"
+                            size_hint_y: None
+                            height: "36dp"
+                            text_size: self.size
+
+                        BoxLayout:
+                            id: activity_list
+                            orientation: "vertical"
+                            size_hint_y: None
+                            height: self.minimum_height
+
+            # FAB — overlays scroll content, pinned bottom-right
+            AnchorLayout:
+                anchor_x: "right"
+                anchor_y: "bottom"
+                padding: "20dp"
+                size_hint: 1, 1
+
+                Button:
+                    text: "+"
+                    font_size: "28sp"
+                    bold: True
+                    color: 1, 1, 1, 1
+                    size_hint: None, None
+                    size: "56dp", "56dp"
+                    background_normal: ""
+                    background_color: 0, 0, 0, 0
+                    on_press: root.go_to_add_item()
+                    canvas.before:
+                        Color:
+                            rgba: 0.102, 0.435, 0.910, 1
+                        Ellipse:
+                            pos: self.pos
+                            size: self.size

@@ -1,0 +1,289 @@
+#:kivy 2.0
+
+<AddItemScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.961, 0.965, 0.980, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+
+        # ── Blue header ───────────────────────────────────────────────────────
+        BoxLayout:
+            size_hint_y: None
+            height: "56dp"
+            padding: "8dp", 0, "8dp", 0
+            spacing: "4dp"
+            canvas.before:
+                Color:
+                    rgba: 0.102, 0.435, 0.910, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            # Back button
+            Button:
+                text: "‹"
+                font_size: "28sp"
+                bold: True
+                color: 1, 1, 1, 1
+                size_hint: None, 1
+                width: "48dp"
+                background_normal: ""
+                background_color: 0, 0, 0, 0
+                on_press: root.go_back()
+
+            # Title
+            Label:
+                id: screen_title
+                text: "Add Item"
+                font_size: "17sp"
+                bold: True
+                color: 1, 1, 1, 1
+                halign: "center"
+                valign: "middle"
+                text_size: self.size
+
+            # Right spacer (keeps title centred)
+            Widget:
+                size_hint: None, 1
+                width: "48dp"
+
+        # ── Scrollable form body ──────────────────────────────────────────────
+        ScrollView:
+            do_scroll_x: False
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                padding: "16dp", "20dp", "16dp", "24dp"
+                spacing: "12dp"
+
+                # Item Name
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: "6dp"
+
+                    Label:
+                        text: "Item Name"
+                        font_size: "12sp"
+                        bold: True
+                        color: 0.40, 0.42, 0.49, 1
+                        halign: "left"
+                        valign: "middle"
+                        size_hint_y: None
+                        height: "18dp"
+                        text_size: self.size
+
+                    TextInput:
+                        id: name_input
+                        hint_text: "e.g. Flour"
+                        font_size: "14sp"
+                        multiline: False
+                        size_hint_y: None
+                        height: "48dp"
+                        background_normal: ""
+                        background_color: 1, 1, 1, 1
+                        foreground_color: 0.133, 0.153, 0.196, 1
+                        hint_text_color: 0.65, 0.67, 0.73, 1
+                        cursor_color: 0.102, 0.435, 0.910, 1
+                        padding: "14dp", "12dp"
+                        canvas.after:
+                            Color:
+                                rgba: 0.878, 0.886, 0.910, 1
+                            Line:
+                                rounded_rectangle: self.x, self.y, self.width, self.height, 8
+                                width: 1
+
+                # SKU
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: "6dp"
+
+                    Label:
+                        text: "SKU"
+                        font_size: "12sp"
+                        bold: True
+                        color: 0.40, 0.42, 0.49, 1
+                        halign: "left"
+                        valign: "middle"
+                        size_hint_y: None
+                        height: "18dp"
+                        text_size: self.size
+
+                    TextInput:
+                        id: sku_input
+                        hint_text: "e.g. 001"
+                        font_size: "14sp"
+                        multiline: False
+                        size_hint_y: None
+                        height: "48dp"
+                        background_normal: ""
+                        background_color: 1, 1, 1, 1
+                        foreground_color: 0.133, 0.153, 0.196, 1
+                        hint_text_color: 0.65, 0.67, 0.73, 1
+                        cursor_color: 0.102, 0.435, 0.910, 1
+                        padding: "14dp", "12dp"
+                        canvas.after:
+                            Color:
+                                rgba: 0.878, 0.886, 0.910, 1
+                            Line:
+                                rounded_rectangle: self.x, self.y, self.width, self.height, 8
+                                width: 1
+
+                # Unit Price
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: "6dp"
+
+                    Label:
+                        text: "Unit Price"
+                        font_size: "12sp"
+                        bold: True
+                        color: 0.40, 0.42, 0.49, 1
+                        halign: "left"
+                        valign: "middle"
+                        size_hint_y: None
+                        height: "18dp"
+                        text_size: self.size
+
+                    TextInput:
+                        id: price_input
+                        hint_text: "e.g. 2.50"
+                        font_size: "14sp"
+                        multiline: False
+                        input_filter: "float"
+                        size_hint_y: None
+                        height: "48dp"
+                        background_normal: ""
+                        background_color: 1, 1, 1, 1
+                        foreground_color: 0.133, 0.153, 0.196, 1
+                        hint_text_color: 0.65, 0.67, 0.73, 1
+                        cursor_color: 0.102, 0.435, 0.910, 1
+                        padding: "14dp", "12dp"
+                        canvas.after:
+                            Color:
+                                rgba: 0.878, 0.886, 0.910, 1
+                            Line:
+                                rounded_rectangle: self.x, self.y, self.width, self.height, 8
+                                width: 1
+
+                # Starting Quantity
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: "6dp"
+
+                    Label:
+                        text: "Starting Quantity"
+                        font_size: "12sp"
+                        bold: True
+                        color: 0.40, 0.42, 0.49, 1
+                        halign: "left"
+                        valign: "middle"
+                        size_hint_y: None
+                        height: "18dp"
+                        text_size: self.size
+
+                    TextInput:
+                        id: qty_input
+                        hint_text: "e.g. 100"
+                        font_size: "14sp"
+                        multiline: False
+                        input_filter: "int"
+                        size_hint_y: None
+                        height: "48dp"
+                        background_normal: ""
+                        background_color: 1, 1, 1, 1
+                        foreground_color: 0.133, 0.153, 0.196, 1
+                        hint_text_color: 0.65, 0.67, 0.73, 1
+                        cursor_color: 0.102, 0.435, 0.910, 1
+                        padding: "14dp", "12dp"
+                        canvas.after:
+                            Color:
+                                rgba: 0.878, 0.886, 0.910, 1
+                            Line:
+                                rounded_rectangle: self.x, self.y, self.width, self.height, 8
+                                width: 1
+
+                # Stock Threshold
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: "6dp"
+
+                    Label:
+                        text: "Stock Threshold"
+                        font_size: "12sp"
+                        bold: True
+                        color: 0.40, 0.42, 0.49, 1
+                        halign: "left"
+                        valign: "middle"
+                        size_hint_y: None
+                        height: "18dp"
+                        text_size: self.size
+
+                    TextInput:
+                        id: threshold_input
+                        hint_text: "e.g. 10"
+                        font_size: "14sp"
+                        multiline: False
+                        input_filter: "int"
+                        size_hint_y: None
+                        height: "48dp"
+                        background_normal: ""
+                        background_color: 1, 1, 1, 1
+                        foreground_color: 0.133, 0.153, 0.196, 1
+                        hint_text_color: 0.65, 0.67, 0.73, 1
+                        cursor_color: 0.102, 0.435, 0.910, 1
+                        padding: "14dp", "12dp"
+                        canvas.after:
+                            Color:
+                                rgba: 0.878, 0.886, 0.910, 1
+                            Line:
+                                rounded_rectangle: self.x, self.y, self.width, self.height, 8
+                                width: 1
+
+                # Error / status message
+                Label:
+                    id: message
+                    text: ""
+                    font_size: "13sp"
+                    color: 0.902, 0.224, 0.224, 1
+                    halign: "left"
+                    valign: "middle"
+                    size_hint_y: None
+                    height: "32dp"
+                    text_size: self.size
+
+                # Save button
+                Button:
+                    id: save_btn
+                    text: "Save Item"
+                    font_size: "15sp"
+                    bold: True
+                    color: 1, 1, 1, 1
+                    size_hint_y: None
+                    height: "52dp"
+                    background_normal: ""
+                    background_color: 0, 0, 0, 0
+                    on_press: root.save_item()
+                    canvas.before:
+                        Color:
+                            rgba: 0.102, 0.435, 0.910, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [10]
