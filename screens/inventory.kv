@@ -1,0 +1,166 @@
+#:kivy 2.0
+
+<InventoryScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.961, 0.965, 0.980, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+
+        # ── Blue header ───────────────────────────────────────────────────────
+        BoxLayout:
+            size_hint_y: None
+            height: "56dp"
+            padding: "8dp", 0, "8dp", 0
+            spacing: "4dp"
+            canvas.before:
+                Color:
+                    rgba: 0.102, 0.435, 0.910, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            # Back button
+            Button:
+                text: "‹"
+                font_size: "28sp"
+                bold: True
+                color: 1, 1, 1, 1
+                size_hint: None, 1
+                width: "48dp"
+                background_normal: ""
+                background_color: 0, 0, 0, 0
+                on_press: root.go_to("dashboard")
+
+            Label:
+                text: "Inventory"
+                font_size: "17sp"
+                bold: True
+                color: 1, 1, 1, 1
+                halign: "center"
+                valign: "middle"
+                text_size: self.size
+
+            # Right spacer
+            Widget:
+                size_hint: None, 1
+                width: "48dp"
+
+        # ── Search bar ────────────────────────────────────────────────────────
+        BoxLayout:
+            size_hint_y: None
+            height: "56dp"
+            padding: "16dp", "8dp", "16dp", "8dp"
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            TextInput:
+                id: search_input
+                hint_text: "Search by name or SKU"
+                hint_text_color: 0.65, 0.67, 0.73, 1
+                foreground_color: 0.133, 0.153, 0.196, 1
+                font_size: "14sp"
+                multiline: False
+                background_normal: ""
+                background_color: 0.945, 0.949, 0.965, 1
+                cursor_color: 0.102, 0.435, 0.910, 1
+                padding: "12dp", "10dp"
+                on_text: root.update_list()
+                canvas.after:
+                    Color:
+                        rgba: 0.878, 0.886, 0.910, 1
+                    Line:
+                        rounded_rectangle: self.x, self.y, self.width, self.height, 8
+                        width: 1
+
+        # ── Sort buttons ──────────────────────────────────────────────────────
+        BoxLayout:
+            size_hint_y: None
+            height: "44dp"
+            padding: "16dp", "6dp", "16dp", "6dp"
+            spacing: "10dp"
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Button:
+                text: "Sort by Quantity ▾"
+                font_size: "12sp"
+                bold: True
+                color: 0.133, 0.153, 0.196, 1
+                background_normal: ""
+                background_color: 0, 0, 0, 0
+                size_hint: None, 1
+                width: "140dp"
+                on_press: root.sort_by("qty")
+                canvas.before:
+                    Color:
+                        rgba: 0.945, 0.949, 0.965, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [6]
+                    Color:
+                        rgba: 0.878, 0.886, 0.910, 1
+                    Line:
+                        rounded_rectangle: self.x, self.y, self.width, self.height, 6
+                        width: 1
+
+            Button:
+                text: "Sort by Price"
+                font_size: "12sp"
+                bold: True
+                color: 0.133, 0.153, 0.196, 1
+                background_normal: ""
+                background_color: 0, 0, 0, 0
+                size_hint: None, 1
+                width: "110dp"
+                on_press: root.sort_by("price")
+                canvas.before:
+                    Color:
+                        rgba: 0.945, 0.949, 0.965, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [6]
+                    Color:
+                        rgba: 0.878, 0.886, 0.910, 1
+                    Line:
+                        rounded_rectangle: self.x, self.y, self.width, self.height, 6
+                        width: 1
+
+            Widget:
+
+        # ── Divider ───────────────────────────────────────────────────────────
+        Widget:
+            size_hint_y: None
+            height: "1dp"
+            canvas.before:
+                Color:
+                    rgba: 0.878, 0.886, 0.910, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+        # ── Scrollable item list ──────────────────────────────────────────────
+        ScrollView:
+            do_scroll_x: False
+
+            BoxLayout:
+                id: item_list
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                padding: "16dp", "12dp", "16dp", "24dp"
+                spacing: "10dp"

@@ -5,7 +5,6 @@ from kivy.core.window import Window
 
 from screens.dashboard import DashboardScreen
 from screens.add_item import AddItemScreen
-
 from screens.inventory import InventoryScreen
 from screens.item_details import ItemDetailsScreen
 from screens.reports import ReportsScreen
@@ -13,12 +12,12 @@ from screens.settings import SettingsScreen
 
 Builder.load_file("screens/dashboard.kv")
 Builder.load_file("screens/add_item.kv")
-# Builder.load_file("screens/inventory.kv")
+Builder.load_file("screens/inventory.kv")
 # Builder.load_file("screens/item_details.kv")
 # Builder.load_file("screens/reports.kv")
 # Builder.load_file("screens/settings.kv")
 
-Window.clearcolor = (0.961, 0.965, 0.980, 1)  # #F5F6FA
+Window.clearcolor = (0.961, 0.965, 0.980, 1)
 
 
 class InventoryApp(App):
