@@ -13,7 +13,7 @@ from screens.settings import SettingsScreen
 Builder.load_file("screens/dashboard.kv")
 Builder.load_file("screens/add_item.kv")
 Builder.load_file("screens/inventory.kv")
-# Builder.load_file("screens/item_details.kv")
+Builder.load_file("screens/item_details.kv")
 # Builder.load_file("screens/reports.kv")
 # Builder.load_file("screens/settings.kv")
 

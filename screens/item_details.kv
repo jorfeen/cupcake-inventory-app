@@ -1,0 +1,308 @@
+#:kivy 2.0
+
+<ItemDetailsScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.961, 0.965, 0.980, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+
+        # ── Blue header ───────────────────────────────────────────────────────
+        BoxLayout:
+            size_hint_y: None
+            height: "56dp"
+            padding: "8dp", 0, "8dp", 0
+            spacing: "4dp"
+            canvas.before:
+                Color:
+                    rgba: 0.102, 0.435, 0.910, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Button:
+                text: "‹"
+                font_size: "28sp"
+                bold: True
+                color: 1, 1, 1, 1
+                size_hint: None, 1
+                width: "48dp"
+                background_normal: ""
+                background_color: 0, 0, 0, 0
+                on_press: root.go_back()
+
+            Label:
+                text: "Item Details"
+                font_size: "17sp"
+                bold: True
+                color: 1, 1, 1, 1
+                halign: "center"
+                valign: "middle"
+                text_size: self.size
+
+            Widget:
+                size_hint: None, 1
+                width: "48dp"
+
+        # ── Scrollable body ───────────────────────────────────────────────────
+        ScrollView:
+            do_scroll_x: False
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                padding: "16dp", "20dp", "16dp", "24dp"
+                spacing: "14dp"
+
+                # ── Item name + SKU ───────────────────────────────────────────
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: "4dp"
+
+                    Label:
+                        id: item_name
+                        text: ""
+                        font_size: "22sp"
+                        bold: True
+                        color: 0.133, 0.153, 0.196, 1
+                        halign: "left"
+                        valign: "middle"
+                        size_hint_y: None
+                        height: "34dp"
+                        text_size: self.size
+
+                    Label:
+                        id: item_sku
+                        text: ""
+                        font_size: "13sp"
+                        color: 0.40, 0.42, 0.49, 1
+                        halign: "left"
+                        valign: "middle"
+                        size_hint_y: None
+                        height: "22dp"
+                        text_size: self.size
+
+                # ── Detail fields card ────────────────────────────────────────
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "14dp", "12dp", "14dp", "12dp"
+                    spacing: 0
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [12]
+                        Color:
+                            rgba: 0.878, 0.886, 0.910, 1
+                        Line:
+                            rounded_rectangle: self.x, self.y, self.width, self.height, 12
+                            width: 1
+
+                    # Quantity row
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "44dp"
+
+                        Label:
+                            text: "Quantity"
+                            font_size: "13sp"
+                            color: 0.40, 0.42, 0.49, 1
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
+
+                        Label:
+                            id: item_quantity
+                            text: ""
+                            font_size: "13sp"
+                            bold: True
+                            color: 0.133, 0.153, 0.196, 1
+                            halign: "right"
+                            valign: "middle"
+                            text_size: self.size
+
+                    # Divider
+                    Widget:
+                        size_hint_y: None
+                        height: "1dp"
+                        canvas.before:
+                            Color:
+                                rgba: 0.878, 0.886, 0.910, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                    # Price row
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "44dp"
+
+                        Label:
+                            text: "Price"
+                            font_size: "13sp"
+                            color: 0.40, 0.42, 0.49, 1
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
+
+                        Label:
+                            id: item_price
+                            text: ""
+                            font_size: "13sp"
+                            bold: True
+                            color: 0.133, 0.153, 0.196, 1
+                            halign: "right"
+                            valign: "middle"
+                            text_size: self.size
+
+                    Widget:
+                        size_hint_y: None
+                        height: "1dp"
+                        canvas.before:
+                            Color:
+                                rgba: 0.878, 0.886, 0.910, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                    # Stock Threshold row
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "44dp"
+
+                        Label:
+                            text: "Stock Threshold"
+                            font_size: "13sp"
+                            color: 0.40, 0.42, 0.49, 1
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
+
+                        Label:
+                            id: item_threshold
+                            text: ""
+                            font_size: "13sp"
+                            bold: True
+                            color: 0.133, 0.153, 0.196, 1
+                            halign: "right"
+                            valign: "middle"
+                            text_size: self.size
+
+                    Widget:
+                        size_hint_y: None
+                        height: "1dp"
+                        canvas.before:
+                            Color:
+                                rgba: 0.878, 0.886, 0.910, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+
+                    # Last Restock row
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "44dp"
+
+                        Label:
+                            text: "Last Restock"
+                            font_size: "13sp"
+                            color: 0.40, 0.42, 0.49, 1
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
+
+                        Label:
+                            id: item_restock
+                            text: ""
+                            font_size: "13sp"
+                            bold: True
+                            color: 0.133, 0.153, 0.196, 1
+                            halign: "right"
+                            valign: "middle"
+                            text_size: self.size
+
+                # ── Edit / Delete buttons ─────────────────────────────────────
+                BoxLayout:
+                    size_hint_y: None
+                    height: "52dp"
+                    spacing: "12dp"
+
+                    Button:
+                        text: "Edit"
+                        font_size: "15sp"
+                        bold: True
+                        color: 1, 1, 1, 1
+                        background_normal: ""
+                        background_color: 0, 0, 0, 0
+                        on_press: root.edit_item()
+                        canvas.before:
+                            Color:
+                                rgba: 0.102, 0.435, 0.910, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [10]
+
+                    Button:
+                        text: "Delete"
+                        font_size: "15sp"
+                        bold: True
+                        color: 1, 1, 1, 1
+                        background_normal: ""
+                        background_color: 0, 0, 0, 0
+                        on_press: root.delete_item()
+                        canvas.before:
+                            Color:
+                                rgba: 0.902, 0.224, 0.224, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [10]
+
+                # ── Transaction History card ───────────────────────────────────
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "14dp", "12dp", "14dp", "8dp"
+                    spacing: 0
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [12]
+                        Color:
+                            rgba: 0.878, 0.886, 0.910, 1
+                        Line:
+                            rounded_rectangle: self.x, self.y, self.width, self.height, 12
+                            width: 1
+
+                    Label:
+                        text: "Transaction History"
+                        font_size: "14sp"
+                        bold: True
+                        color: 0.133, 0.153, 0.196, 1
+                        halign: "left"
+                        valign: "middle"
+                        size_hint_y: None
+                        height: "36dp"
+                        text_size: self.size
+
+                    BoxLayout:
+                        id: history_list
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
