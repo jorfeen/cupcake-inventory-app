@@ -14,8 +14,8 @@ Builder.load_file("screens/dashboard.kv")
 Builder.load_file("screens/add_item.kv")
 Builder.load_file("screens/inventory.kv")
 Builder.load_file("screens/item_details.kv")
-# Builder.load_file("screens/reports.kv")
-# Builder.load_file("screens/settings.kv")
+Builder.load_file("screens/reports.kv")
+Builder.load_file("screens/settings.kv")
 
 Window.clearcolor = (0.961, 0.965, 0.980, 1)
 

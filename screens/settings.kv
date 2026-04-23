@@ -1,0 +1,241 @@
+#:kivy 2.0
+
+<SettingsScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.961, 0.965, 0.980, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: "vertical"
+
+        # ── Blue header ───────────────────────────────────────────────────────
+        BoxLayout:
+            size_hint_y: None
+            height: "56dp"
+            padding: "8dp", 0, "8dp", 0
+            spacing: "4dp"
+            canvas.before:
+                Color:
+                    rgba: 0.102, 0.435, 0.910, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Button:
+                text: "‹"
+                font_size: "28sp"
+                bold: True
+                color: 1, 1, 1, 1
+                size_hint: None, 1
+                width: "48dp"
+                background_normal: ""
+                background_color: 0, 0, 0, 0
+                on_press: root.go_to("dashboard")
+
+            Label:
+                text: "Settings"
+                font_size: "17sp"
+                bold: True
+                color: 1, 1, 1, 1
+                halign: "center"
+                valign: "middle"
+                text_size: self.size
+
+            Widget:
+                size_hint: None, 1
+                width: "48dp"
+
+        # ── Scrollable body ───────────────────────────────────────────────────
+        ScrollView:
+            do_scroll_x: False
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                padding: "16dp", "20dp", "16dp", "24dp"
+                spacing: "14dp"
+
+                # ── Appearance card ───────────────────────────────────────────
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "14dp", "12dp", "14dp", "12dp"
+                    spacing: 0
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [12]
+                        Color:
+                            rgba: 0.878, 0.886, 0.910, 1
+                        Line:
+                            rounded_rectangle: self.x, self.y, self.width, self.height, 12
+                            width: 1
+
+                    Label:
+                        text: "Appearance"
+                        font_size: "14sp"
+                        bold: True
+                        color: 0.133, 0.153, 0.196, 1
+                        halign: "left"
+                        valign: "middle"
+                        size_hint_y: None
+                        height: "36dp"
+                        text_size: self.size
+
+                    BoxLayout:
+                        size_hint_y: None
+                        height: "48dp"
+                        spacing: "12dp"
+
+                        Label:
+                            text: "Dark Mode"
+                            font_size: "13sp"
+                            color: 0.40, 0.42, 0.49, 1
+                            halign: "left"
+                            valign: "middle"
+                            text_size: self.size
+
+                        Button:
+                            id: dark_mode_toggle
+                            text: "Off"
+                            font_size: "13sp"
+                            bold: True
+                            color: 1, 1, 1, 1
+                            size_hint: None, None
+                            size: "64dp", "32dp"
+                            pos_hint: {"center_y": 0.5}
+                            background_normal: ""
+                            background_color: 0, 0, 0, 0
+                            on_press: root.toggle_dark_mode()
+                            canvas.before:
+                                Color:
+                                    rgba: (0.102, 0.435, 0.910, 1) if self.text == "On" else (0.65, 0.67, 0.73, 1)
+                                RoundedRectangle:
+                                    pos: self.pos
+                                    size: self.size
+                                    radius: [16]
+
+                # ── Inventory defaults card ───────────────────────────────────
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    padding: "14dp", "12dp", "14dp", "12dp"
+                    spacing: "12dp"
+                    canvas.before:
+                        Color:
+                            rgba: 1, 1, 1, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [12]
+                        Color:
+                            rgba: 0.878, 0.886, 0.910, 1
+                        Line:
+                            rounded_rectangle: self.x, self.y, self.width, self.height, 12
+                            width: 1
+
+                    Label:
+                        text: "Inventory Defaults"
+                        font_size: "14sp"
+                        bold: True
+                        color: 0.133, 0.153, 0.196, 1
+                        halign: "left"
+                        valign: "middle"
+                        size_hint_y: None
+                        height: "36dp"
+                        text_size: self.size
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        spacing: "6dp"
+
+                        Label:
+                            text: "Default Stock Threshold"
+                            font_size: "12sp"
+                            bold: True
+                            color: 0.40, 0.42, 0.49, 1
+                            halign: "left"
+                            valign: "middle"
+                            size_hint_y: None
+                            height: "18dp"
+                            text_size: self.size
+
+                        TextInput:
+                            id: threshold_input
+                            font_size: "14sp"
+                            multiline: False
+                            input_filter: "int"
+                            size_hint_y: None
+                            height: "48dp"
+                            background_normal: ""
+                            background_color: 1, 1, 1, 1
+                            foreground_color: 0.133, 0.153, 0.196, 1
+                            hint_text_color: 0.65, 0.67, 0.73, 1
+                            cursor_color: 0.102, 0.435, 0.910, 1
+                            padding: "14dp", "12dp"
+                            canvas.after:
+                                Color:
+                                    rgba: 0.878, 0.886, 0.910, 1
+                                Line:
+                                    rounded_rectangle: self.x, self.y, self.width, self.height, 8
+                                    width: 1
+
+                    Button:
+                        text: "Save Threshold"
+                        font_size: "14sp"
+                        bold: True
+                        color: 1, 1, 1, 1
+                        size_hint_y: None
+                        height: "48dp"
+                        background_normal: ""
+                        background_color: 0, 0, 0, 0
+                        on_press: root.save_threshold()
+                        canvas.before:
+                            Color:
+                                rgba: 0.102, 0.435, 0.910, 1
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [10]
+
+                # ── Status message ────────────────────────────────────────────
+                Label:
+                    id: message
+                    text: ""
+                    font_size: "13sp"
+                    color: 0.133, 0.694, 0.298, 1
+                    halign: "left"
+                    valign: "middle"
+                    size_hint_y: None
+                    height: "28dp"
+                    text_size: self.size
+
+                # ── Reset button (standalone, no card) ───────────────────────
+                Button:
+                    text: "Reset Settings / Data"
+                    font_size: "15sp"
+                    bold: True
+                    color: 1, 1, 1, 1
+                    size_hint_y: None
+                    height: "52dp"
+                    background_normal: ""
+                    background_color: 0, 0, 0, 0
+                    on_press: root.confirm_reset()
+                    canvas.before:
+                        Color:
+                            rgba: 0.902, 0.224, 0.224, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [10]
