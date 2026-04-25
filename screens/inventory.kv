@@ -11,7 +11,6 @@
     BoxLayout:
         orientation: "vertical"
 
-        # ── Blue header ───────────────────────────────────────────────────────
         BoxLayout:
             size_hint_y: None
             height: "56dp"
@@ -24,10 +23,9 @@
                     pos: self.pos
                     size: self.size
 
-            # Back button
             Button:
-                text: "‹"
-                font_size: "28sp"
+                text: "\u2039"
+                font_size: "22sp"
                 bold: True
                 color: 1, 1, 1, 1
                 size_hint: None, 1
@@ -45,12 +43,10 @@
                 valign: "middle"
                 text_size: self.size
 
-            # Right spacer
             Widget:
                 size_hint: None, 1
                 width: "48dp"
 
-        # ── Search bar ────────────────────────────────────────────────────────
         BoxLayout:
             size_hint_y: None
             height: "56dp"
@@ -81,7 +77,6 @@
                         rounded_rectangle: self.x, self.y, self.width, self.height, 8
                         width: 1
 
-        # ── Sort buttons ──────────────────────────────────────────────────────
         BoxLayout:
             size_hint_y: None
             height: "44dp"
@@ -95,54 +90,31 @@
                     size: self.size
 
             Button:
-                text: "Sort by Quantity ▾"
+                id: sort_qty_btn
+                text: "Sort by Qty"
                 font_size: "12sp"
                 bold: True
                 color: 0.133, 0.153, 0.196, 1
                 background_normal: ""
-                background_color: 0, 0, 0, 0
+                background_color: 0.945, 0.949, 0.965, 1
                 size_hint: None, 1
-                width: "140dp"
+                width: "160dp"
                 on_press: root.sort_by("qty")
-                canvas.before:
-                    Color:
-                        rgba: 0.945, 0.949, 0.965, 1
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [6]
-                    Color:
-                        rgba: 0.878, 0.886, 0.910, 1
-                    Line:
-                        rounded_rectangle: self.x, self.y, self.width, self.height, 6
-                        width: 1
 
             Button:
+                id: sort_price_btn
                 text: "Sort by Price"
                 font_size: "12sp"
                 bold: True
                 color: 0.133, 0.153, 0.196, 1
                 background_normal: ""
-                background_color: 0, 0, 0, 0
+                background_color: 0.945, 0.949, 0.965, 1
                 size_hint: None, 1
-                width: "110dp"
+                width: "160dp"
                 on_press: root.sort_by("price")
-                canvas.before:
-                    Color:
-                        rgba: 0.945, 0.949, 0.965, 1
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [6]
-                    Color:
-                        rgba: 0.878, 0.886, 0.910, 1
-                    Line:
-                        rounded_rectangle: self.x, self.y, self.width, self.height, 6
-                        width: 1
 
             Widget:
 
-        # ── Divider ───────────────────────────────────────────────────────────
         Widget:
             size_hint_y: None
             height: "1dp"
@@ -153,7 +125,6 @@
                     pos: self.pos
                     size: self.size
 
-        # ── Scrollable item list ──────────────────────────────────────────────
         ScrollView:
             do_scroll_x: False
 

@@ -14,10 +14,8 @@ class ReportsScreen(Screen):
     selected_report = "Summary"
 
     def on_enter(self):
-        self.ids.report_type_btn.text = self.selected_report + "  ▾"
+        self.ids.report_type_btn.text = self.selected_report + "  (v)"
         self._hide_all()
-
-    # ── Visibility helpers ─────────────────────────────────────────────────────
 
     def _hide_all(self):
         self._set_card_visible(self.ids.summary_card, False)
@@ -43,8 +41,6 @@ class ReportsScreen(Screen):
             card.height = 0
         else:
             card.height = card.minimum_height
-
-    # ── Dropdown ───────────────────────────────────────────────────────────────
 
     def open_dropdown(self):
         content = BoxLayout(orientation="vertical", spacing=0, padding=0)
@@ -93,11 +89,9 @@ class ReportsScreen(Screen):
 
     def _select_report(self, report, popup):
         self.selected_report = report
-        self.ids.report_type_btn.text = report + "  ▾"
+        self.ids.report_type_btn.text = report + "  (v)"
         self._hide_all()
         popup.dismiss()
-
-    # ── Generate ───────────────────────────────────────────────────────────────
 
     def generate_report(self):
         if self.selected_report == "Summary":
@@ -119,9 +113,9 @@ class ReportsScreen(Screen):
         self.ids.total_value.text     = f"${total_value:,.2f}"
         self.ids.low_stock_count.text = str(len(low_stock))
         self.ids.total_items.text     = str(len(items))
-        self.ids.top_selling.text     = f"{highest_item['name']} — {highest_item['quantity']} units" if highest_item else "—"
-        self.ids.lowest_stock.text    = f"{lowest_item['name']} — {lowest_item['quantity']} units" if lowest_item else "—"
-        self.ids.recent_restock.text  = f"{recent_restock['name']} — {recent_restock['last_restock']}" if recent_restock else "—"
+        self.ids.top_selling.text     = f"{highest_item['name']} - {highest_item['quantity']} units" if highest_item else "-"
+        self.ids.lowest_stock.text    = f"{lowest_item['name']} - {lowest_item['quantity']} units" if lowest_item else "-"
+        self.ids.recent_restock.text  = f"{recent_restock['name']} - {recent_restock['last_restock']}" if recent_restock else "-"
 
         self._build_low_stock_list(low_stock)
         self._show_both()
@@ -135,14 +129,12 @@ class ReportsScreen(Screen):
     def _generate_top_quantity(self):
         sorted_items = sorted(items, key=lambda i: i["quantity"], reverse=True)[:5]
         self._build_quantity_list(sorted_items, color=(0.133, 0.694, 0.298, 1))
-        self._show_low_stock()  # reuses the same card
+        self._show_low_stock()
 
     def _generate_lowest_quantity(self):
         sorted_items = sorted(items, key=lambda i: i["quantity"])[:5]
         self._build_quantity_list(sorted_items, color=(0.902, 0.224, 0.224, 1))
-        self._show_low_stock()  # reuses the same card
-
-    # ── List builders ──────────────────────────────────────────────────────────
+        self._show_low_stock()
 
     def _build_low_stock_list(self, low_stock):
         container = self.ids.low_stock_list

@@ -9,9 +9,33 @@ from database.db import items
 class InventoryScreen(Screen):
 
     def on_enter(self):
-        self.current_sort = getattr(self, "current_sort", "name")
+        self.current_sort = getattr(self, "current_sort", None)
+        self.sort_dir = getattr(self, "sort_dir", {})
         self.update_list()
+        self._update_sort_buttons()
 
+    def sort_by(self, mode):
+        if self.current_sort == mode:
+            self.sort_dir[mode] = "desc" if self.sort_dir.get(mode) == "asc" else "asc"
+        else:
+            self.current_sort = mode
+            self.sort_dir[mode] = "asc"
+        self.update_list()
+        self._update_sort_buttons()
+
+    def _update_sort_buttons(self):
+        for mode, btn_id, label in [("qty", "sort_qty_btn", "Qty"), ("price", "sort_price_btn", "Price")]:
+            btn = self.ids[btn_id]
+            if self.current_sort == mode:
+                direction = self.sort_dir.get(mode, "asc")
+                direction_label = "Low to High" if direction == "asc" else "High to Low"
+                btn.text = f"{label}: {direction_label}"
+                btn.color = (1, 1, 1, 1)
+                btn.background_color = (0.102, 0.435, 0.910, 1)
+            else:
+                btn.text = f"Sort by {label}"
+                btn.color = (0.133, 0.153, 0.196, 1)
+                btn.background_color = (0.945, 0.949, 0.965, 1)
 
     def update_list(self):
         container = self.ids.item_list
@@ -42,14 +66,13 @@ class InventoryScreen(Screen):
             [i for i in items if query in i["name"].lower() or query in i["sku"].lower()]
             if query else list(items)
         )
-
+        reverse = self.sort_dir.get(self.current_sort) == "desc"
         if self.current_sort == "qty":
-            result.sort(key=lambda i: i["quantity"])
+            result.sort(key=lambda i: i["quantity"], reverse=reverse)
         elif self.current_sort == "price":
-            result.sort(key=lambda i: i["price"])
+            result.sort(key=lambda i: i["price"], reverse=reverse)
         else:
             result.sort(key=lambda i: i["name"].lower())
-
         return result
 
     def _item_row(self, item):
@@ -106,8 +129,8 @@ class InventoryScreen(Screen):
         text_col.add_widget(sub_lbl)
 
         chevron = Label(
-            text="›",
-            font_size="22sp",
+            text=u"\u203a",
+            font_size="18sp",
             color=(0.65, 0.67, 0.73, 1),
             size_hint=(None, 1),
             width="24dp",
@@ -121,12 +144,6 @@ class InventoryScreen(Screen):
         ))
 
         return row
-
-
-    def sort_by(self, mode):
-        self.current_sort = mode
-        self.update_list()
-
 
     def open_item_details(self, item):
         self.manager.get_screen("item_details").selected_item = item
