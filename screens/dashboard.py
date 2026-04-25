@@ -76,19 +76,7 @@ class DashboardScreen(Screen):
         )
         lbl.bind(size=lambda i, v: setattr(i, "text_size", (i.width, None)))
 
-        chevron = Label(
-            text="›",
-            font_size="22sp",
-            color=(0.65, 0.67, 0.73, 1),
-            size_hint=(None, 1),
-            width="28dp",
-            halign="center",
-            valign="middle",
-        )
-        chevron.bind(size=lambda i, v: setattr(i, "text_size", i.size))
-
         row.add_widget(lbl)
-        row.add_widget(chevron)
 
         with row.canvas.after:
             Color(0.878, 0.886, 0.910, 1)
