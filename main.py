@@ -2,7 +2,6 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
 from kivy.lang import Builder
 from kivy.core.window import Window
-
 from screens.dashboard import DashboardScreen
 from screens.add_item import AddItemScreen
 from screens.inventory import InventoryScreen
