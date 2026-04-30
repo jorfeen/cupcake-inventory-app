@@ -1,9 +1,6 @@
 # Cupcake Inventory Management System
-
 A desktop inventory management application built with Python and Kivy, designed to help small businesses track, manage, and monitor inventory levels.
-
 ## Team
-
 - Similoluwa Onimole (w10187267)
 - Riad Benyamna (w10192777)
 - Aadarsha Tiwari (w10194142)
@@ -15,7 +12,6 @@ A desktop inventory management application built with Python and Kivy, designed 
 ---
 
 ## Technologies
-
 | Technology | Version |
 |------------|---------|
 | Python     | 3.13.1  |
@@ -24,7 +20,6 @@ A desktop inventory management application built with Python and Kivy, designed 
 ---
 
 ## Project Structure
-
 ```
 cupcake_inventory_app/
 ├── main.py
@@ -46,20 +41,34 @@ cupcake_inventory_app/
 ## How to Run
 
 ### 1. Clone the repository
-
 ```bash
 git clone https://github.com/jorfeen/cupcake-inventory-app
 cd cupcake_inventory_app
 ```
 
-### 2. Install dependencies
+### 2. Create and activate a virtual environment (recommended)
+Using a virtual environment avoids conflicts with system packages.
 
+**macOS/Linux:**
 ```bash
-pip install kivy==2.3.1
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-### 3. Run the application
+**Windows:**
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
 
+### 3. Install dependencies
+```bash
+pip3 install kivy==2.3.1
+```
+
+> **Note:** No database setup is required. The application uses a local SQLite database (`database/db.py`) that is created automatically on first run.
+
+### 4. Run the application
 ```bash
 python3 main.py
 ```
@@ -67,15 +76,13 @@ python3 main.py
 ---
 
 ## Features
-
 - **Dashboard** — Overview of total items, low stock alerts, inventory value, and recent activity
-- **Inventory** — Searchable list of all inventory items, sortable by quantity or price with ascending/descending toggle
-- **Item Details** — Full item info with transaction history, edit and delete (with confirmation)
+- **Inventory** — Searchable list of all inventory items, sortable by quantity or price with high/low toggle
+- **Item Details** — Full item info with transaction history, edit and delete functionality
 - **Add Item** — Add new items or edit existing ones with input validation
 - **Reports** — Generate filtered reports by summary, low stock, top quantity, or lowest quantity
 - **Settings** — Toggle dark mode, set default stock threshold, reset all data (with confirmation)
 
 ## Known Limitations
-
-- Dark mode toggle is stored but does not visually apply to the UI
-- Inventory data resets when the application is closed
+- Dark mode toggle is stored in settings but does not visually apply to the UI in the current scope
+- Inventory data does not persist between sessions; the database resets when the application is closed
