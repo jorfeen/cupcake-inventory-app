@@ -1,5 +1,6 @@
 from kivy.uix.screenmanager import Screen
 from database.db import items, recent_activity
+from datetime import date
 import database.db as db
 
 
@@ -38,7 +39,7 @@ class AddItemScreen(Screen):
         threshold = self.ids.threshold_input.text.strip()
 
         if not all([name, sku, price, qty, threshold]):
-            self.ids.message.text = "⚠  Please fill in all fields."
+            self.ids.message.text = "Please fill in all fields."
             return
 
         if any(i["sku"] == sku and i is not self.editing_item for i in items):
@@ -50,11 +51,11 @@ class AddItemScreen(Screen):
             qty       = int(qty)
             threshold = int(threshold)
         except ValueError:
-            self.ids.message.text = "⚠  Price must be a number; qty/threshold must be integers."
+            self.ids.message.text = "Price must be a number; qty/threshold must be integers."
             return
 
         if price < 0 or qty < 0 or threshold < 0:
-            self.ids.message.text = "⚠  Values cannot be negative."
+            self.ids.message.text = "Values cannot be negative."
             return
 
         if self.editing_item:
@@ -73,15 +74,17 @@ class AddItemScreen(Screen):
             self.manager.current = "item_details"
             return
 
+        today = date.today().strftime("%m/%d/%Y")
+
         item = {
             "name":         name,
             "sku":          sku,
             "price":        price,
             "quantity":     qty,
             "threshold":    threshold,
-            "last_restock": "04/22/2026",
+            "last_restock": today,
             "history": [{
-                "date":   "04/22/2026",
+                "date":   today,
                 "change": f"+{qty} units",
                 "note":   "Added new stock",
             }],
