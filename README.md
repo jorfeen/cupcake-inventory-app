@@ -65,9 +65,9 @@ venv\Scripts\activate
 ```bash
 pip3 install kivy==2.3.1
 ```
-
-> **Note:** No database setup is required. The application uses a local SQLite database (`database/db.py`) that is created automatically on first run.
-
+ 
+> **Note:** No database setup is required. The application stores data in-memory using Python data structures (`database/db.py`). Data will reset each time the application is closed.
+ 
 ### 4. Run the application
 ```bash
 python3 main.py
