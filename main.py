@@ -20,6 +20,7 @@ Window.clearcolor = (0.961, 0.965, 0.980, 1)
 
 
 class InventoryApp(App):
+    title = "Cupcake Inventory Management System"
     def build(self):
         sm = ScreenManager()
         sm.add_widget(DashboardScreen(name="dashboard"))
