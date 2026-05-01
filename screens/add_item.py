@@ -1,5 +1,6 @@
 from kivy.uix.screenmanager import Screen
-from database.db import items, recent_activity, default_threshold
+from database.db import items, recent_activity
+import database.db as db
 
 
 class AddItemScreen(Screen):
@@ -12,7 +13,7 @@ class AddItemScreen(Screen):
         self.ids.screen_title.text = "Edit Item" if self.editing_item else "Add Item"
         self.ids.save_btn.text = "Save Changes" if self.editing_item else "Save Item"
         self.ids.message.text = ""
-        self.ids.threshold_input.text = "" if self.editing_item else str(default_threshold)
+        self.ids.threshold_input.text = "" if self.editing_item else str(db.default_threshold)
         self.populate_fields()
 
     def populate_fields(self):
@@ -41,7 +42,7 @@ class AddItemScreen(Screen):
             return
 
         if any(i["sku"] == sku and i is not self.editing_item for i in items):
-            self.ids.message.text = "⚠  SKU already exists."
+            self.ids.message.text = "Error: SKU already exists."
             return
 
         try:
